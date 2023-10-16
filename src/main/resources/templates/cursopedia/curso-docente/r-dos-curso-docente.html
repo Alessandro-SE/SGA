@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+    <head th:replace="~{/index::head('Registrar')}">
+    </head>
+    <body>
+        <div class="root">
+            <!-- Sidebar -->
+            <div th:replace="~{components/app-menu::sidebar}"></div>
+
+            <!-- Main content -->
+            <main class="main-content">
+                <!-- App-bar -->
+                <header class="header">
+                    <div th:replace="~{components/app-menu::app-bar('CURSOS DOCENTE', '/curspedia/cursos-docente')}">
+                    </div>
+                </header>
+                <div class="spacer"></div>
+                <div class="content">
+                    <span class="text-muted">Paso 2 de 2</span>
+                    <h2 class="text-primary">Registrar curso docente</h2>
+                    <form th:object="${cursoDocente}" class="jx-form" method="post">
+                        <div class="card">
+                            <div class="card-body">
+                                <input th:field="*{docente}" hidden/>
+                                <div class="form-group">
+                                    <label>Docente DNI</label>
+                                    <input th:field="*{docente.persona.dni}" class="form-control" type="text" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label>Año escolar</label>
+                                    <select id="anoEscolar" class="form-control" onchange="getGradosByAnoEscolarId(event)">
+                                        <option th:value="null" selected>--Selecciona un año escolar--</option>
+                                        <option th:each="anoEscolar : ${anosEscolares}"
+                                                th:value="${anoEscolar.id}"
+                                                th:text="${anoEscolar.nombre}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Grado</label>
+                                    <select id="grado" class="form-control"
+                                            onchange="getSeccionesByGradoId(event); getCursosByGradoId(event);"
+                                            disabled>
+                                        <div th:replace="~{/components/opciones::opciones-grado}">
+                                        </div>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Sección</label>
+                                    <select th:field="*{seccion}" class="form-control" disabled>
+                                        <div th:replace="~{/components/opciones::opciones-seccion}">
+                                        </div>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Curso</label>
+                                    <select th:field="*{curso}" class="form-control" disabled>
+                                        <div th:replace="~{/components/opciones::opciones-curso}">
+                                        </div>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <button class="btn btn-primary btn-block" type="submit">
+                                                Registrar
+                                            </button>
+                                        </div>
+                                        <div class="col-auto">
+                                            <button class="btn btn-outline-info btn-block go-back-btn" type="button">
+                                                Volver atrás
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </main>
+        </div>
+
+        <!-- Scripts -->
+        <th:block th:replace="~{/index::scripts}">
+        </th:block>
+    </body>
+</html>
